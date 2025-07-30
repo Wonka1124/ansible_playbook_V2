@@ -1,4 +1,0 @@
----
-harbor_hostname: "harbor.local"
-harbor_admin_password: "Harbor12345"
-harbor_db_password: "HarborDB12345" 
