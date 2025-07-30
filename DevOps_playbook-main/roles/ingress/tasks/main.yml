@@ -1,0 +1,27 @@
+---
+- name: Add NGINX Ingress Helm repository
+  kubernetes.core.helm_repository:
+    name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+
+- name: Install NGINX Ingress Controller
+  kubernetes.core.helm:
+    name: ingress-nginx
+    chart_ref: ingress-nginx/ingress-nginx
+    namespace: ingress-nginx
+    create_namespace: true
+    values:
+      controller:
+        service:
+          type: LoadBalancer
+          externalTrafficPolicy: Local
+        config:
+          use-proxy-protocol: "false"
+          use-forwarded-headers: "true"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi

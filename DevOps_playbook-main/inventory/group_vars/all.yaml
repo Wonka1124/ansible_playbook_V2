@@ -1,0 +1,32 @@
+---
+os: "linux"
+arch: "amd64"
+
+vip: 192.168.3.50
+
+metallb_version: v0.13.12
+lb_range: 192.168.3.80-192.168.3.90
+lb_pool_name: first-pool
+
+# Domain name for ingress
+domain_name: "local"
+
+# Monitoring variables
+prometheus_retention: "7d"
+prometheus_storage_size: "10Gi"
+grafana_admin_password: "admin123"
+grafana_storage_size: "5Gi"
+loki_storage_size: "10Gi"
+
+# ArgoCD variables
+argocd_admin_password: "admin123"
+argocd_host: "argocd.local"
+
+ansible_become: true
+ansible_become_method: sudo
+################################################################################
+# options to change default values
+# kube_vip_version: "v0.8.0"
+# vip_interface: "eth0"
+# rke2_version: "v1.29.4+rke2r1"
+# rke2_install_dir: "/usr/local/bin"
