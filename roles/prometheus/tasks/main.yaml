@@ -1,0 +1,37 @@
+---
+- name: Create monitoring namespace
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: monitoring
+    state: present
+
+- name: Add Prometheus Helm repository
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: https://prometheus-community.github.io/helm-charts
+
+- name: Install Prometheus Stack
+  kubernetes.core.helm:
+    name: prometheus
+    chart_ref: prometheus-community/kube-prometheus-stack
+    namespace: monitoring
+    create_namespace: false
+    values:
+      prometheus:
+        prometheusSpec:
+          retention: 7d
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: local-path
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 10Gi
+      grafana:
+        adminPassword: admin123
+        persistence:
+          enabled: true
+          storageClassName: local-path
+          size: 5Gi
